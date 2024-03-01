@@ -1,0 +1,52 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: ./todo-app-backend
+      dockerfile: Dockerfile
+    image: todoapp-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL-postgresql://postgres:Jesus002@localhost:5432/todo_app
+      - DB_HOST=db
+      - DB_PORT=5432
+    volumes:
+      - ./todo-app-backend:/app  
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./todo-app-frontend
+      dockerfile: Dockerfile      
+    image: todoapp-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./todo-app-frontend:/app
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Jesus002
+      POSTGRES_DB: todo-app
+    volumes:
+      - db-backup:/var/lib/postgresql/datarget
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 40s
+      timeout: 40s
+      retries: 2
+
+volumes:
+  db-backup:      
+
+    
