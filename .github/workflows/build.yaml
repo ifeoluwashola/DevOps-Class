@@ -37,3 +37,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/todo-app-frontend:${{ github.sha }}    
+
+##
