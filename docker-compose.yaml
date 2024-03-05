@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-version: '3.9'
-
+version: '3'
 services:
   backend:
     build:
@@ -37,7 +35,7 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Jesus002
+      POSTGRES_PASSWORD: dmex123
       POSTGRES_DB: todo-app
     volumes:
       - db-backup:/var/lib/postgresql/datarget
@@ -51,51 +49,3 @@ volumes:
   db-backup:      
 
     
-=======
-version: '3.9'
-
-services:
-  todo-app-backend:
-    build:
-      context: ./todo-app-backend
-      dockerfile: Dockerfile
-    image: todo-app-backend
-    ports:
-      - "5000:5000"
-    env_file:
-      - .env
-    volumes:
-      - ./todo-app-backend:/app
-    depends_on:
-      db:
-        condition: service_healthy
-
-  todo-app-frontend:
-    build:
-      context: ./todo-app-frontend
-      dockerfile: Dockerfile
-    image: todo-app-frontend
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./todo-app-frontend:/app
-    depends_on:
-      - todo-app-backend
-
-  db:
-    image: postgres:alpine
-    ports:
-      - "5432:5432"
-    env_file:
-      - ./.env
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgres"]
-      interval:  30s
-      timeout:  30s
-      retries:  3
-
-volumes:
-  pgdata:
->>>>>>> b3af0c27a90eb1209867628a807ce32fd43e287d

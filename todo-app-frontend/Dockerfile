@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-FROM node:alpine
-
-WORKDIR /app
-
-COPY package.json .
-COPY package-lock.json .
-
-RUN npm install
-
-COPY . .
-
-EXPOSE 3000
-
-=======
 FROM node:20-alpine
 
 # Setting the working directory in the container
@@ -33,5 +18,4 @@ COPY src/ ./src
 EXPOSE 3000
 
 # Command to run the application
->>>>>>> b3af0c27a90eb1209867628a807ce32fd43e287d
 CMD ["npm", "start"]
