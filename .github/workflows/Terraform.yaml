@@ -1,7 +1,6 @@
-
 name: Provision t2.micro EC2
 on:
-  workflow_dispatch:
+ workflow_dispatch:
     inputs:
       ec2_name:
         description: EC2 name
@@ -9,7 +8,7 @@ on:
         default: 'Tony-Devops'
         type: string
 jobs:
-  provision-ec2:
+ provision-ec2:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -25,14 +24,13 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_wrapper: false
+          terraform_version: '1.0.0' # Specify your Terraform version here
       - name: Terraform Apply
-        id:   apply
-        env:
-          TF_VAR_ec2_name:  "${{ github.event.inputs.ec2_name }}"
-        run: 
-          terraform
+        id: apply
+        run: |
           terraform init
           terraform validate
           terraform plan 
           terraform apply -auto-approve
+        env:
+          TF_VAR_ec2_name: "${{ github.event.inputs.ec2_name }}"
